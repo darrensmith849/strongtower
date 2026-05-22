@@ -92,6 +92,15 @@ export default function PrivacyPage() {
             <a href={`mailto:${site.email.contact}`}>{site.email.contact}</a>.
           </p>
 
+          <h2>What this site is not</h2>
+          <p>
+            Strong Tower is not a crisis service and not a clinical service.
+            If you are in immediate crisis, please reach out to a trusted
+            pastor, a qualified counsellor, or your local emergency support
+            services. Where it would help, we will gladly point you toward
+            people and resources better equipped for clinical or crisis care.
+          </p>
+
           <h2>A final word</h2>
           <p>
             We will keep this promise plain and visible. If we ever need to
