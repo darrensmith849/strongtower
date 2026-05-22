@@ -71,8 +71,17 @@ export function PilotWaitlistForm() {
   if (status === "success") {
     return (
       <FormSuccess
-        title="Thank you — we have your details."
-        message="We will be in touch as the Strong Tower pilot opens. In the meantime, please pray for this mission and consider sharing it with someone who needs it."
+        title="Thank you for joining the founding pilot."
+        message="Your response has been received."
+        paragraphs={[
+          "We are gathering early pilot participants before deeper protection layers are built. We may contact you about next steps.",
+          "In the meantime, please pray for this mission, read a guide or two, or share Strong Tower with someone who needs it.",
+        ]}
+        links={[
+          { href: "/resources", label: "Read the resource hub" },
+          { href: "/support", label: "Support the mission" },
+          { href: "/for-churches", label: "For churches & ministries" },
+        ]}
       />
     );
   }

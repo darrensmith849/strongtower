@@ -8,6 +8,7 @@ export const primaryNav: NavItem[] = [
   { label: "Mission", href: "/mission" },
   { label: "Approach", href: "/approach" },
   { label: "Recovery", href: "/recovery" },
+  { label: "Resources", href: "/resources" },
   { label: "Pilot", href: "/pilot" },
   { label: "Support", href: "/support" },
 ];
@@ -34,7 +35,11 @@ export const fullNav: { group: string; items: NavItem[] }[] = [
   },
   {
     group: "Recovery",
-    items: [{ label: "Gospel-centred recovery", href: "/recovery" }],
+    items: [
+      { label: "Gospel-centred recovery", href: "/recovery" },
+      { label: "Resource hub", href: "/resources" },
+      { label: "Emergency temptation plan", href: "/resources/emergency-temptation-plan" },
+    ],
   },
   {
     group: "Get involved",

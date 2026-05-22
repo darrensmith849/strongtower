@@ -68,8 +68,16 @@ export function SupportInterestForm() {
   if (status === "success") {
     return (
       <FormSuccess
-        title="Thank you for standing with this mission."
-        message="We will be in touch as donation pathways open. Your willingness to help is itself an encouragement."
+        title="Thank you for your support interest."
+        message="Payment processing is not live yet. Your interest has been received."
+        paragraphs={[
+          "We will contact founding supporters when the donation pathway opens. Your willingness to help is itself an encouragement.",
+        ]}
+        links={[
+          { href: "/mission", label: "Read the mission" },
+          { href: "/technical-vision", label: "See the technical vision" },
+          { href: "/resources", label: "Browse the resource hub" },
+        ]}
       />
     );
   }

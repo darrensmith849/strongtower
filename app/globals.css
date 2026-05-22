@@ -93,3 +93,58 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Print styles for /resources/* guides. Goal: clean black-on-white,
+   hide site chrome and CTAs, keep typography legible. */
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111 !important;
+  }
+  /* Hide site header, footer, anything marked .no-print, and the
+     print button itself. */
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  a {
+    color: #111 !important;
+    text-decoration: underline;
+  }
+  a[href]::after {
+    content: "";
+  }
+  .print-page {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  .print-card {
+    border: 1px solid #ccc !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    color: #111 !important;
+    page-break-inside: avoid;
+  }
+  /* Force palette neutrals onto common Tailwind tokens used in the
+     resource pages so print stays calm. */
+  .print-page,
+  .print-page * {
+    color: #111 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    page-break-after: avoid;
+  }
+  ol,
+  ul,
+  blockquote {
+    page-break-inside: avoid;
+  }
+}

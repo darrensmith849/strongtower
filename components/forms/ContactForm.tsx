@@ -61,8 +61,15 @@ export function ContactForm() {
   if (status === "success") {
     return (
       <FormSuccess
-        title="Thank you — your message has been sent."
-        message="We read every message and will respond as soon as we can. For urgent pastoral matters, please also reach out to a trusted local pastor or church leader."
+        title="Message received."
+        message="The Strong Tower team will respond when possible."
+        paragraphs={[
+          "This is not a crisis or clinical support service. For urgent pastoral matters, please reach out to a trusted local pastor, a qualified counsellor, or your local emergency support services.",
+        ]}
+        links={[
+          { href: "/mission", label: "Read the mission" },
+          { href: "/resources", label: "Browse the resource hub" },
+        ]}
       />
     );
   }

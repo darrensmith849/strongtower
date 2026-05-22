@@ -17,6 +17,11 @@ const routes = [
   "/support",
   "/privacy",
   "/contact",
+  "/resources",
+  "/resources/parent-conversation-guide",
+  "/resources/accountability-covenant",
+  "/resources/church-pilot-one-pager",
+  "/resources/emergency-temptation-plan",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

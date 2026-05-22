@@ -16,7 +16,8 @@ import { Card } from "@/components/primitives/Card";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { Badge } from "@/components/primitives/Badge";
 import { PullQuote } from "@/components/marketing/PullQuote";
-import { PilotWaitlistCTA } from "@/components/marketing/PilotWaitlistCTA";
+import { RoadmapSection } from "@/components/marketing/RoadmapSection";
+import { FoundingPilotCTA } from "@/components/marketing/FoundingPilotCTA";
 
 export const metadata: Metadata = {
   title: "Technical vision",
@@ -120,7 +121,12 @@ export default function TechnicalVisionPage() {
           </PullQuote>
         </div>
       </SectionShell>
-      <PilotWaitlistCTA />
+      <RoadmapSection
+        eyebrow="Roadmap"
+        title="Where we are on the journey."
+        lede="The honest map: what is live, what is being built now, and what is still future research."
+      />
+      <FoundingPilotCTA />
     </>
   );
 }

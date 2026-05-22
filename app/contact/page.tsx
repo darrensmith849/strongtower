@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/primitives/PageHeader";
 import { SectionShell } from "@/components/primitives/SectionShell";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { WhatHappensNext } from "@/components/marketing/WhatHappensNext";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -44,6 +45,15 @@ export default function ContactPage() {
           </div>
         </div>
       </SectionShell>
+
+      <WhatHappensNext
+        intro="A short note on what this form is — and isn’t — for."
+        steps={[
+          "For general questions, partnership, press, pastoral, or technical enquiries — write a few sentences and we will respond when possible.",
+          "We are a small mission. We are honest about response times; we aim for soon, not instant.",
+          "This is not a crisis service, a clinical service, or an emergency line. If you are in immediate crisis, please reach out to a trusted pastor, a qualified counsellor, or your local emergency support services.",
+        ]}
+      />
     </>
   );
 }

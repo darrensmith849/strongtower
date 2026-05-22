@@ -4,7 +4,43 @@ The public website for **The Strong Tower Project** — a donation-based, Christ
 
 > "The name of the LORD is a strong tower; the righteous run to it and are safe." — Proverbs 18:10
 
-This repo is the Phase 1 public site plus Phase 2 form persistence. There is no auth, no payments, no database, no CMS, and no device-blocking code.
+This repo is the Phase 1 public site plus Phase 2 form persistence, the Phase 3 launch-credibility polish, a Phase 4 resource hub, and Phase 5 pilot workflow UX. There is no auth, no payments, no database, no CMS, and no device-blocking code.
+
+## Current production status
+
+| Area | Status |
+| --- | --- |
+| Phase 1 public website | **Live** |
+| Phase 2 Google Sheets persistence | **Live** |
+| Forms saving to Google Sheets when env vars are configured | **Live** |
+| Phase 3 launch credibility polish | **Live** |
+| Phase 4 resource hub (`/resources` + 4 printable guides) | **Live** |
+| Phase 5 pilot workflow polish (success + "what happens next") | **Live** |
+| Resend email delivery | Env-var keys exist, values not yet configured |
+| Payment processing | Not built |
+| Custom domain | Not connected |
+| Auth / dashboard | Not built |
+| Actual device or network blocking | Not built — future phases |
+
+If Resend env vars are absent or empty, form submissions still succeed and persist to Google Sheets; emails simply aren't sent.
+
+## Testing the forms safely
+
+The three forms (`/pilot`, `/support`, `/contact`) all POST to App Router API routes that validate input with Zod, drop honeypot-tripped submissions silently, and persist to the configured destinations.
+
+Safe ways to test on the live site:
+
+- Submit one clearly-labelled test row per form. Avoid bulk testing — every row lands in the live Google Sheet.
+- Use obvious test data (e.g. firstName "QA Test", email `qa-test@example.com`) so it's easy to spot and delete in the Sheet afterwards.
+- Expect a successful response of `{ ok: true, delivered: <bool>, saved: <bool> }`. With Sheets configured, `saved: true` is the success indicator.
+- The honeypot field is named `website` — leaving it empty is correct.
+
+## Secret hygiene
+
+- **Never commit secrets.** `.env*` files are gitignored by default; only `.env.example` is tracked.
+- **Google Sheets env vars must remain in Vercel.** They're set on the `strongtower` Vercel project, scoped to Production and Preview. Removing them silently breaks form persistence.
+- **Service account JSON keys should not be kept locally after setup.** Download the key, paste the values into Vercel, delete the downloaded JSON. If you ever need a new key, generate a fresh one in Google Cloud Console.
+- The site exposes no secrets in client-side bundles — all secret-using code runs in App Router `runtime: "nodejs"` route handlers.
 
 ## Stack
 
