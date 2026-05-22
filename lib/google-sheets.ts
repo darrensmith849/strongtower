@@ -137,6 +137,14 @@ export async function appendRow(
   const rawKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY;
 
   if (!spreadsheetId || !clientEmail || !rawKey || !sheetName) {
+    // Diagnostic: log which flags are present (booleans only — never values)
+    // so we can pinpoint a missing env var in production. Remove after debug.
+    console.warn("[sheets] not configured", {
+      spreadsheetId: !!spreadsheetId,
+      clientEmail: !!clientEmail,
+      rawKey: !!rawKey,
+      sheetName: !!sheetName,
+    });
     return { configured: false, saved: false };
   }
 
