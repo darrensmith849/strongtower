@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { waitlistSchema } from "@/lib/validation/waitlist";
 import { sendEmail, formatSubmission } from "@/lib/email";
+import { appendRow, sheetTargets } from "@/lib/google-sheets";
+import { ipHash, source, userAgent } from "@/lib/request-meta";
+import { persistenceResponse } from "@/lib/persistence-response";
 
 export const runtime = "nodejs";
 
@@ -32,7 +35,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const body = formatSubmission("Strong Tower — Pilot waitlist signup", {
+  const submittedAt = new Date().toISOString();
+  const submissionSource = source(request, "pilot");
+  const ua = userAgent(request);
+  const hashedIp = ipHash(request);
+
+  const emailBody = formatSubmission("Strong Tower — Pilot waitlist signup", {
     "First name": parsed.data.firstName,
     Email: parsed.data.email,
     Country: parsed.data.country,
@@ -41,28 +49,30 @@ export async function POST(request: Request) {
     "Level of interest": parsed.data.interestLevel,
     Message: parsed.data.message || "(none)",
     "Consent given": parsed.data.consent ? "yes" : "no",
-    "Submitted at": new Date().toISOString(),
+    Source: submissionSource,
+    "Submitted at": submittedAt,
   });
 
-  const to = process.env.MAIL_TO_PILOT ?? "";
-  const result = await sendEmail({
-    to,
-    subject: `Pilot waitlist — ${parsed.data.firstName} (${parsed.data.joiningAs})`,
-    text: body,
-  });
+  const [emailResult, sheetsResult] = await Promise.all([
+    sendEmail({
+      to: process.env.MAIL_TO_PILOT ?? "",
+      subject: `Pilot waitlist — ${parsed.data.firstName} (${parsed.data.joiningAs})`,
+      text: emailBody,
+    }),
+    appendRow(sheetTargets().pilot, [
+      submittedAt,
+      parsed.data.firstName,
+      parsed.data.email,
+      parsed.data.country,
+      parsed.data.joiningAs,
+      parsed.data.devices.join(", "),
+      parsed.data.interestLevel,
+      parsed.data.message ?? "",
+      submissionSource,
+      ua,
+      hashedIp,
+    ]),
+  ]);
 
-  if (!result.ok) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "We could not send your submission. Please try again or email us directly.",
-      },
-      { status: 502 },
-    );
-  }
-
-  return NextResponse.json({
-    ok: true,
-    delivered: result.delivered,
-  });
+  return persistenceResponse(emailResult, sheetsResult);
 }
