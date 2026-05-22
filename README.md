@@ -4,7 +4,7 @@ The public website for **The Strong Tower Project** — a donation-based, Christ
 
 > "The name of the LORD is a strong tower; the righteous run to it and are safe." — Proverbs 18:10
 
-This repo is the Phase 1 public site plus Phase 2 form persistence, the Phase 3 launch-credibility polish, a Phase 4 resource hub, and Phase 5 pilot workflow UX. There is no auth, no payments, no database, no CMS, and no device-blocking code.
+This repo is the Phase 1 public site plus Phase 2 form persistence, the Phase 3 launch-credibility polish, a Phase 4 resource hub, Phase 5 pilot workflow UX, and the Phase 7 internal pilot operations workflow. There is no auth, no payments, no database, no CMS, and no device-blocking code.
 
 ## Current production status
 
@@ -16,6 +16,7 @@ This repo is the Phase 1 public site plus Phase 2 form persistence, the Phase 3 
 | Phase 3 launch credibility polish | **Live** |
 | Phase 4 resource hub (`/resources` + 4 printable guides) | **Live** |
 | Phase 5 pilot workflow polish (success + "what happens next") | **Live** |
+| Phase 7 internal pilot operations workflow (docs + internal page) | **Live** |
 | Resend email delivery | Env-var keys exist, values not yet configured |
 | Payment processing | Not built |
 | Custom domain | Not connected |
@@ -41,6 +42,44 @@ Safe ways to test on the live site:
 - **Google Sheets env vars must remain in Vercel.** They're set on the `strongtower` Vercel project, scoped to Production and Preview. Removing them silently breaks form persistence.
 - **Service account JSON keys should not be kept locally after setup.** Download the key, paste the values into Vercel, delete the downloaded JSON. If you ever need a new key, generate a fresh one in Google Cloud Console.
 - The site exposes no secrets in client-side bundles — all secret-using code runs in App Router `runtime: "nodejs"` route handlers.
+
+## Pilot operations workflow
+
+The Strong Tower team triages every pilot, support, and contact submission through a lightweight, pastoral, repeatable rhythm — no admin dashboard, no automation, no surveillance. Three internal docs hold the playbook:
+
+- [`docs/pilot-operations.md`](./docs/pilot-operations.md) — the workflow doc. Per-audience triage (individual / parent / church / accountability partner / donor / technical volunteer), weekly review rhythm, safeguarding escalation rules, what to say, what not to say, and how to label and follow up the founding cohort.
+- [`docs/response-templates.md`](./docs/response-templates.md) — seven warm, gospel-centred response templates plus reusable building blocks for the team's first replies.
+- [`docs/sheet-columns.md`](./docs/sheet-columns.md) — recommended manual triage columns to add to the **right** of the API-written columns on each Sheet tab. The API columns are positional — never insert, rename, or reorder them.
+
+### Where form data lands
+
+| Form | Public route | API route | Sheet tab |
+| --- | --- | --- | --- |
+| Pilot waitlist | `/pilot` | `/api/waitlist` | **Pilot Waitlist** |
+| Support interest | `/support` | `/api/support-interest` | **Support Interest** |
+| Contact | `/contact` | `/api/contact` | **Contact Messages** |
+
+### Weekly review process (summary)
+
+Once a week, a single owner walks the Sheet end-to-end. Sort each tab by `submittedAt` desc, filter `status = New`, pick a category and priority, send a tailored response from `docs/response-templates.md`, then fill `firstResponseSentAt`, `status = Replied`, `assignedTo`, and a one-line note. Set `followUpDate` and check stale rows weekly. Full detail in `docs/pilot-operations.md`.
+
+### Internal-only web reference
+
+There is also a web-rendered version of the workflow at `/internal/pilot-workflow`. It is:
+
+- A static page — no live data, no Sheets fetch, no admin functionality.
+- Excluded from the public nav, footer, and sitemap.
+- Explicitly set to `noindex, nofollow` via page metadata.
+- Disallowed in `robots.txt`.
+
+It is not an authenticated surface. Treat it as obscured, not secret. Do not put applicant data, secrets, or sensitive personal detail there. The markdown docs in `/docs` are the source of truth; the page is just a convenience.
+
+### Current limitations of the operations workflow
+
+- No automated triage. Every triage column is filled in by a person.
+- No transactional confirmation emails until Resend is configured.
+- No queryable submission history beyond the Sheet itself — don't lose access to it.
+- No admin dashboard. When the Sheet stops being enough, that's the trigger for the next phase of operations work — not before.
 
 ## Stack
 
