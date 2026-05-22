@@ -45,24 +45,5 @@ export function persistenceResponse(
     ok: true,
     delivered: emailResult.delivered,
     saved: sheetsResult.saved,
-    // TEMP DIAG: remove after Google Sheets setup is verified. Booleans
-    // and short error tags only — never values or secrets.
-    _diag: {
-      emailConfigured: emailResult.configured,
-      emailError: emailResult.error ?? null,
-      sheetsConfigured: sheetsResult.configured,
-      sheetsError: sheetsResult.error ?? null,
-      envPresence: {
-        RESEND_API_KEY: !!process.env.RESEND_API_KEY,
-        MAIL_FROM: !!process.env.MAIL_FROM,
-        MAIL_TO_PILOT: !!process.env.MAIL_TO_PILOT,
-        GOOGLE_SHEETS_CLIENT_EMAIL: !!process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
-        GOOGLE_SHEETS_PRIVATE_KEY: !!process.env.GOOGLE_SHEETS_PRIVATE_KEY,
-        GOOGLE_SHEETS_SPREADSHEET_ID: !!process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
-        GOOGLE_SHEETS_PILOT_SHEET_NAME: !!process.env.GOOGLE_SHEETS_PILOT_SHEET_NAME,
-        GOOGLE_SHEETS_SUPPORT_SHEET_NAME: !!process.env.GOOGLE_SHEETS_SUPPORT_SHEET_NAME,
-        GOOGLE_SHEETS_CONTACT_SHEET_NAME: !!process.env.GOOGLE_SHEETS_CONTACT_SHEET_NAME,
-      },
-    },
   });
 }
